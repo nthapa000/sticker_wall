@@ -227,10 +227,49 @@ const getPanelColor = (centreId) => {
   return '#999'; // unassigned/fallback
 };
 
-// Clear and redraw entire map
-export const renderMap = (mapEl, stickers, snapshot) => {
+// Get stroke dasharray by panel for assignment lines
+const getStrokeDasharray = (centreId) => {
+  if (centreId === 'frost') return 'none'; // solid
+  if (centreId === 'neon') return '4,2'; // dashed
+  if (centreId === 'ember') return '1,3'; // dotted
+  return 'none';
+};
+
+// Render assignment lines from stickers to centres
+export const renderAssignmentLines = (mapEl, stickers, snapshot) => {
+  const group = svg('g', { id: 'assignment-lines' });
+
+  for (let i = 0; i < stickers.length; i++) {
+    const sticker = stickers[i];
+    const centreIdx = snapshot.assign[i];
+    const centre = snapshot.centres[centreIdx];
+    const stickerPos = scale(sticker.w, sticker.s);
+    const centrePos = scale(centre.w, centre.s);
+
+    const color = getPanelColor(centre.id);
+    const strokeDasharray = getStrokeDasharray(centre.id);
+
+    group.appendChild(svg('line', {
+      x1: stickerPos.x, y1: stickerPos.y,
+      x2: centrePos.x, y2: centrePos.y,
+      stroke: color,
+      'stroke-width': 0.3,
+      'stroke-dasharray': strokeDasharray,
+      opacity: 0.4,
+      class: `assignment-line ${centre.id}`,
+    }));
+  }
+
+  mapEl.appendChild(group);
+};
+
+// Clear and redraw entire map with assignment lines
+export const renderMap = (mapEl, stickers, snapshot, showAssignments = false) => {
   mapEl.innerHTML = '';
   renderGrid(mapEl);
+  if (showAssignments && snapshot.it > 0) {
+    renderAssignmentLines(mapEl, stickers, snapshot);
+  }
   renderStickers(mapEl, stickers, snapshot.assign, snapshot.centres);
   renderCentres(mapEl, snapshot.before, snapshot.centres);
 };

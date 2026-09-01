@@ -9,4 +9,6 @@ Refer Plan.md.
 For architecture decision look into : 
 architecture_diagram folder
 
+update .gitignore file to NOT save node_modules and other downloadable packages
+
 Dont use git unless told!
