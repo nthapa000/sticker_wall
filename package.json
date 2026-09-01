@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "name": "sticker-wall",
+  "version": "1.0.0",
+  "description": "Sticker Wall K-Means Curator",
+  "main": "index.html"
+}
