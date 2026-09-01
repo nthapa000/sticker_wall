@@ -3,5 +3,8 @@
   "name": "sticker-wall",
   "version": "1.0.0",
   "description": "Sticker Wall K-Means Curator",
-  "main": "index.html"
+  "main": "index.html",
+  "devDependencies": {
+    "jsdom": "^23.0.0"
+  }
 }
