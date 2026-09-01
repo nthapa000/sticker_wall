@@ -1,0 +1,29 @@
+---
+title: What Happens in One Step (One k-means Iteration)
+---
+flowchart TD
+    Start(["User clicks Step"]) --> A
+
+    A["1. ASSIGN<br/>Every sticker measures its distance<br/>to every current panel centre"]
+    A --> ATie{"Exact tie?<br/>(within 1e-12)"}
+    ATie -- Yes --> ATieResolve["Earlier centre wins<br/>(source order)"]
+    ATie -- No --> AWin["Closest centre wins"]
+    ATieResolve --> B
+    AWin --> B
+
+    B["2. UPDATE<br/>Each centre moves to the average<br/>position of its assigned stickers"]
+    B --> BEmpty{"Any panel empty?"}
+    BEmpty -- Yes --> BKeep["That centre stays exactly<br/>where it was (no divide by zero)"]
+    BEmpty -- No --> BMove["Centre moves to the new average"]
+    BKeep --> C
+    BMove --> C
+
+    C["3. MEASURE<br/>Add up every sticker's squared<br/>distance to its NEW centre<br/>(this is the Total Squared Error)"]
+    C --> D
+
+    D["4. CHECK<br/>Did every sticker land on the<br/>SAME centre as last iteration?"]
+    D -- "No -- something changed" --> E["Status: RUNNING<br/>Ready for another Step"]
+    D -- "Yes -- nothing changed" --> F["Status: CONVERGED<br/>Step and Run to End both stop here"]
+    D -- "Still changing after 20 tries" --> G["Status: NOT_CONVERGED<br/>(safety stop, keeps last state visible)"]
+
+    F --> H(["Save Final Wall button turns on"])

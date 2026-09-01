@@ -1,0 +1,30 @@
+---
+title: What Each Button Does
+---
+stateDiagram-v2
+    [*] --> READY: Load Demo
+
+    READY --> RUNNING: Step (does ONE iteration)
+    RUNNING --> RUNNING: Step (does ONE more iteration)
+    RUNNING --> CONVERGED: Step (assignments repeated)
+    READY --> CONVERGED: Run to End (loops Step automatically)
+    RUNNING --> CONVERGED: Run to End (loops Step automatically)
+    RUNNING --> NOT_CONVERGED: Step (hit 20 tries, still changing)
+
+    CONVERGED --> [*]: Reset (back to original stickers and centres)
+    NOT_CONVERGED --> [*]: Reset (back to original stickers and centres)
+    RUNNING --> [*]: Reset (back to original stickers and centres)
+
+    CONVERGED --> Saved: Save Final Wall (JSON download)
+    Saved --> CONVERGED
+
+    note right of CONVERGED
+        Save Final Wall is ONLY
+        turned on in this state
+    end note
+
+    note right of RUNNING
+        Editing a sticker here
+        wipes history and restarts
+        from the ORIGINAL centres
+    end note

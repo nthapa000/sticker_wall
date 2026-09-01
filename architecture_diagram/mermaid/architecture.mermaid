@@ -1,0 +1,38 @@
+---
+title: How the App is Built (Layer by Layer)
+---
+flowchart TD
+    A["Fixed Collections<br/>(Night Market, Quiet Corner, invalid fixtures)"] --> B
+
+    subgraph B["Core Engine (no DOM, pure functions)"]
+        direction TB
+        B1["geometry.js<br/>distance, mean, movement, rounding"]
+        B2["validate.js<br/>checks k, ids, coordinate ranges"]
+        B3["kmeans.js<br/>iterate(): Assign, Update, Measure, Check"]
+        B1 --> B3
+        B2 --> B3
+    end
+
+    B --> C
+
+    subgraph C["Store (state/store.js)"]
+        C1["History of Iterations<br/>(append only, never edited)"]
+        C2["step() -- runs ONE iteration"]
+        C3["runToEnd() -- just calls step() in a loop"]
+        C2 --> C1
+        C3 --> C2
+    end
+
+    C --> D
+
+    subgraph D["UI (renders only, computes nothing)"]
+        D1["Warmth / Sparkle Map"]
+        D2["Panel Cards"]
+        D3["Iteration Metrics"]
+        D4["Sticker Inspector"]
+        D5["Controls: Load Demo, Step, Run to End, Reset, Save Final Wall"]
+    end
+
+    E["Tests (node --test)"] -.->|checks answers against| F["Recorded Expected Run<br/>(docs/EXPECTED_RUN.md)"]
+    E -.->|tests, never imported by| B
+    E -.->|tests, never imported by| C
