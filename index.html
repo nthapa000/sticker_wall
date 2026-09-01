@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sticker Wall K-Means Curator</title>
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/app.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <h1>Sticker Wall K-Means Curator</h1>
+      <div class="header-status" aria-live="polite">
+        <span id="status-text">Ready</span>
+        <span id="iteration-text"></span>
+      </div>
+    </header>
+
+    <!-- Main layout: three zones -->
+    <div class="layout">
+      <!-- Left rail -->
+      <aside class="left-rail">
+        <section class="collection-panel">
+          <h2 id="collection-name">Night Market</h2>
+        </section>
+
+        <section class="controls-panel">
+          <button id="load-demo-btn" class="btn btn-secondary">Load Demo</button>
+          <button id="step-btn" class="btn btn-primary">Step</button>
+          <button id="run-end-btn" class="btn btn-secondary">Run to End</button>
+          <button id="reset-btn" class="btn btn-ghost-danger">Reset</button>
+        </section>
+
+        <section class="validation-panel" id="validation-panel"></section>
+
+        <section class="edit-panel">
+          <h3>Edit Sticker</h3>
+          <form id="edit-form">
+            <label>
+              w <input type="number" id="edit-w" min="0" max="10" step="0.1">
+            </label>
+            <label>
+              s <input type="number" id="edit-s" min="0" max="10" step="0.1">
+            </label>
+          </form>
+        </section>
+      </aside>
+
+      <!-- Center: Map -->
+      <main class="map-container">
+        <svg id="map" viewBox="0 0 100 100" class="map"></svg>
+      </main>
+
+      <!-- Right rail -->
+      <aside class="right-rail">
+        <section class="metrics-panel">
+          <h3>Iteration</h3>
+          <div id="metrics">
+            <div class="metric">
+              <span>SSE</span>
+              <span id="sse-value">—</span>
+            </div>
+            <div class="metric">
+              <span>Movements</span>
+              <span id="movements-value">—</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panels-panel">
+          <h3>Panels</h3>
+          <div id="panel-cards"></div>
+        </section>
+
+        <section class="inspector-panel">
+          <h3>Inspector</h3>
+          <div id="inspector"></div>
+        </section>
+
+        <button id="save-btn" class="btn btn-secondary">Save Final Wall</button>
+      </aside>
+    </div>
+
+    <!-- Legend -->
+    <footer class="legend" id="legend"></footer>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
